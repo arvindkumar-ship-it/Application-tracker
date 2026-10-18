@@ -4,7 +4,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from app.config import get_settings
-from app.api import auth, health
+from app.api import auth, health, vault, intake, jobs, sheets, tailoring
 
 settings = get_settings()
 api_url = urlsplit(settings.next_public_api_url)
@@ -44,3 +44,8 @@ async def server_error(request: Request, error: Exception):
 
 app.include_router(auth.router, prefix="/api")
 app.include_router(health.router, prefix="/api")
+app.include_router(vault.router, prefix="/api")
+app.include_router(intake.router, prefix="/api")
+app.include_router(jobs.router, prefix="/api")
+app.include_router(sheets.router, prefix="/api")
+app.include_router(tailoring.router, prefix="/api")

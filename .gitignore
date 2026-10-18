@@ -6,3 +6,6 @@ __pycache__/
 .next/
 service-account*.json
 celerybeat-schedule*
+*.dump
+*.sqlite
+*.tsbuildinfo

@@ -1,0 +1,8 @@
+{
+  "file": "job_09.html",
+  "title": "Fixture API Engineer 9",
+  "company_name": "Synthetic Fixture Company 9",
+  "deadline_absent": false,
+  "multiple_jobs": true,
+  "fixture_notice": "Synthetic test data only; never seed the owner database."
+}

@@ -1,0 +1,7 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><style>{{ css }}</style></head><body>
+<header><h1>{{ profile.full_name }}</h1><div class="contact">{% for value in contacts %}{{ value }}{% if not loop.last %} · {% endif %}{% endfor %}</div></header>
+{% for name in sections.section_order %}
+{% if name == 'summary' and sections.summary %}<section><h2>Summary</h2><p>{{ sections.summary.text }}</p></section>
+{% elif name == 'skills' and sections.skills %}<section><h2>Skills</h2><p>{% for skill in sections.skills %}{{ skill.name }}{% if not loop.last %}, {% endif %}{% endfor %}</p></section>
+{% elif name not in ['summary','skills'] and sections.get(name) %}<section><h2>{{ name|title }}</h2>{% for entry in sections[name] %}<article><div class="entry-head"><strong>{{ entry.title }}</strong>{% if entry.dates %}<span>{{ entry.dates }}</span>{% endif %}</div>{% if entry.subtitle %}<p class="subtitle">{{ entry.subtitle }}</p>{% endif %}{% if entry.bullets %}<ul>{% for bullet in entry.bullets %}<li>{{ bullet.text }}</li>{% endfor %}</ul>{% endif %}</article>{% endfor %}</section>{% endif %}
+{% endfor %}</body></html>

@@ -1,7 +1,8 @@
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from sqlalchemy.pool import NullPool
 from app.config import get_settings
 
-engine = create_async_engine(get_settings().database_url, pool_pre_ping=True, connect_args={"timeout": 3, "server_settings": {"timezone": "UTC"}})
+engine = create_async_engine(get_settings().database_url, poolclass=NullPool, connect_args={"timeout": 3, "server_settings": {"timezone": "UTC"}})
 session_factory = async_sessionmaker(engine, expire_on_commit=False)
 
 

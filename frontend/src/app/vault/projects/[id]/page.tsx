@@ -1,0 +1,14 @@
+'use client';
+import { use,useState } from 'react';
+import Link from 'next/link';
+import { useQuery,useQueryClient } from '@tanstack/react-query';
+import { api } from '@/lib/api';
+import { vaultFields } from '@/lib/constants';
+import ProjectForm,{ErrorBox,Loading} from '@/components/ProjectForm';
+import FactEditor from '@/components/FactEditor';
+export default function ProjectPage({params}:{params:Promise<{id:string}>}){
+ const {id}=use(params);const client=useQueryClient();const [technology,setTechnology]=useState('');const [note,setNote]=useState('');const [error,setError]=useState('');const [busy,setBusy]=useState(false);
+ const project=useQuery({queryKey:['project',id],queryFn:()=>api<Record<string,unknown>>(`/vault/projects/${id}`)});const tech=useQuery({queryKey:['tech',id],queryFn:()=>api<{id:string;technology:string;usage_note:string}[]>(`/vault/projects/${id}/tech`)});
+ if(project.isLoading)return <Loading/>;if(project.error)return <ErrorBox message={project.error.message}/>;
+ return <><Link className="back-link" href="/vault">← Back to vault</Link><div className="page-heading"><div><span className="eyebrow">DEEP PROJECT RECORD</span><h1>{String(project.data?.name||'Project')}</h1><p>The details behind the bullet points. Keep the full story here.</p></div></div><section className="panel"><ProjectForm fields={vaultFields.projects} initial={project.data||{}} onSave={async values=>{await api(`/vault/projects/${id}`,{method:'PATCH',body:JSON.stringify(values)});await client.invalidateQueries()}}/></section><section className="panel"><div className="section-heading"><h2>Technology & how you used it</h2></div>{error&&<ErrorBox message={error}/>}<form className="tech-add" onSubmit={async e=>{e.preventDefault();setBusy(true);setError('');try{await api(`/vault/projects/${id}/tech`,{method:'POST',body:JSON.stringify({technology,usage_note:note,is_primary:false})});setTechnology('');setNote('');await client.invalidateQueries({queryKey:['tech',id]})}catch(e){setError((e as Error).message)}finally{setBusy(false)}}}><label className="field"><span>Technology</span><input required value={technology} onChange={e=>setTechnology(e.target.value)}/></label><label className="field"><span>Actual usage</span><input value={note} onChange={e=>setNote(e.target.value)}/></label><button className="button" disabled={busy}>Add technology</button></form><div className="tech-list">{tech.data?.map(t=><div key={t.id}><strong>{t.technology}</strong><span>{t.usage_note}</span><button className="text-button danger" onClick={async()=>{try{await api(`/vault/projects/${id}/tech/${t.id}`,{method:'DELETE'});await client.invalidateQueries({queryKey:['tech',id]})}catch(e){setError((e as Error).message)}}}>Remove</button></div>)}</div></section><FactEditor parentType="project" parentId={id} canGenerate/></>
+}

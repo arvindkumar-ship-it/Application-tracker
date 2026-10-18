@@ -1,0 +1,8 @@
+Company: Synthetic Fixture Company 7
+Role: Fixture API Engineer 7
+Location: Remote
+Required skills: Python, PostgreSQL
+Responsibilities: Build and test APIs.
+Qualifications: Degree or equivalent experience.
+Salary: INR 15000 per month
+Apply email: fixture7@example.com

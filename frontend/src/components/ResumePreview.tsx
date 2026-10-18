@@ -1,0 +1,3 @@
+'use client';
+import { BASE } from '@/lib/api';
+export default function ResumePreview({id,pageCount}:{id:string;pageCount:number}){return <section className="panel resume-preview"><div className="section-heading"><h2>Resume preview</h2><span className="badge neutral">{pageCount} {pageCount===1?'page':'pages'}</span></div><div className="pdf-page-previews">{Array.from({length:pageCount},(_,i)=><img key={i} src={`${BASE}/tailored/${id}/preview?page=${i+1}`} alt={`Rendered resume PDF, page ${i+1}`} loading="lazy"/>)}</div><p className="muted-small">Preview rendered from your PDF. Downloads contain selectable text.</p></section>}

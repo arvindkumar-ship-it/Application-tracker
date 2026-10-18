@@ -6,22 +6,27 @@
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build && node -e \"require('node:fs').cpSync('.next/static','.next/standalone/.next/static',{recursive:true})\"",
     "start": "node .next/standalone/server.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --configLoader runner"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.0",
+    "@tanstack/react-table": "^8.21.3",
     "lucide-react": "^0.468.0",
     "next": "^15.5.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@testing-library/react": "^16.3.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "autoprefixer": "^10.4.20",
+    "jsdom": "^26.1.0",
     "postcss": "^8.5.0",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.9.0"
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
   }
 }
