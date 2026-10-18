@@ -1,0 +1,8 @@
+.env
+data/
+node_modules/
+__pycache__/
+*.pyc
+.next/
+service-account*.json
+celerybeat-schedule*
